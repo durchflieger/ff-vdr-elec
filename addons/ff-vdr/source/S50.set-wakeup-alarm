@@ -1,0 +1,8 @@
+#!/bin/sh
+# SPDX-License-Identifier: GPL-2.0-or-later
+
+ALARM_TIME=$1
+log="logger -t ff-vdr/S50.set-wakeup-alarm"
+
+$log "set wakeup alarm time to $ALARM_TIME"
+echo $ALARM_TIME > /sys/class/rtc/rtc0/wakealarm

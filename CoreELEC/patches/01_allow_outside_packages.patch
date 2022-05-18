@@ -1,0 +1,15 @@
+# Allow source addon packages outside build tree
+
+diff --git a/config/functions b/config/functions
+index 7c2a6b8215..1635127fc4 100644
+--- a/config/functions
++++ b/config/functions
+@@ -661,7 +661,7 @@ init_package_cache() {
+     find "${ROOT}/projects/${PROJECT}/packages" -type f -name package.mk 2>/dev/null | sed "s#/package\.mk\$#${_ANCHOR}#" >> "${temp_local}"
+ 
+     # cache packages folder
+-    find "${ROOT}/${PACKAGES}" -type f -name package.mk 2>/dev/null | sed "s#/package\.mk\$#${_ANCHOR}#" >> "${temp_global}"
++    find -L "${ROOT}/${PACKAGES}" -type f -name package.mk 2>/dev/null | sed "s#/package\.mk\$#${_ANCHOR}#" >> "${temp_global}"
+ 
+     _CACHE_PACKAGE_LOCAL="${BUILD}/.cache_package_local"
+     _CACHE_PACKAGE_GLOBAL="${BUILD}/.cache_package_global"

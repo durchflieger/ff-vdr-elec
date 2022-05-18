@@ -1,0 +1,21 @@
+[Unit]
+Description=VDR-Service
+Requires=network-online.target graphical.target
+After=network-online.target graphical.target
+
+[Service]
+Type=notify
+ExecStart=/bin/sh /storage/.kodi/addons/ff-vdr/vdr-service.sh
+ExecStartPost=-/bin/sleep 3
+Restart=always
+RestartSec=2
+StartLimitInterval=3
+NotifyAccess=main
+WatchdogSec=20
+TimeoutStartSec=30
+TimeoutStopSec=30
+TimeoutAbortSec=60
+LimitNOFILE=16384
+
+[Install]
+WantedBy=vdr.target

@@ -1,0 +1,15 @@
+# Provide OpenGL ES3 development of meson driver
+
+diff --git a/projects/Amlogic-ce/devices/Amlogic-ng/packages/opengl-meson/package.mk b/projects/Amlogic-ce/devices/Amlogic-ng/packages/opengl-meson/package.mk
+index 75eb20ebce..74f58cbf3c 100644
+--- a/projects/Amlogic-ce/devices/Amlogic-ng/packages/opengl-meson/package.mk
++++ b/projects/Amlogic-ce/devices/Amlogic-ng/packages/opengl-meson/package.mk
+@@ -46,6 +46,8 @@ makeinstall_target() {
+     cp -pr include/EGL_platform/platform_fbdev/* ${SYSROOT_PREFIX}/usr/include/EGL
+   mkdir -p ${SYSROOT_PREFIX}/usr/include/GLES2
+     cp -pr include/GLES2 ${SYSROOT_PREFIX}/usr/include
++  mkdir -p ${SYSROOT_PREFIX}/usr/include/GLES3
++    cp -pr include/GLES3 ${SYSROOT_PREFIX}/usr/include
+   mkdir -p ${SYSROOT_PREFIX}/usr/include/KHR
+     cp -pr include/KHR ${SYSROOT_PREFIX}/usr/include
+   mkdir -p ${SYSROOT_PREFIX}/usr/lib

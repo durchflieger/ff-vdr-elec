@@ -1,0 +1,11 @@
+# List of addons to be build by build.sh
+ff-vdr
+ff-vdr-frontend
+ff-vdr-plugin-softhdodroid
+ff-vdr-plugin-streamdev
+ff-vdr-plugin-satip
+ff-vdr-plugin-svdrpservice
+ff-vdr-plugin-remoteosd
+ff-vdr-plugin-dfatmo
+ff-vdr-media-modules-aml
+ff-vdr-eventlircd

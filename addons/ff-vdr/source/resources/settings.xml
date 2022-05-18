@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="Service">
+       <setting id="FF_VDR_FRONTEND_MODE" type="bool" label="Run VDR only when viewing" default="true"/>
+       <setting id="FF_VDR_BOOT_MODE" type="bool" label="Run VDR on start system" default="false"/>
+    </category>
+</settings>

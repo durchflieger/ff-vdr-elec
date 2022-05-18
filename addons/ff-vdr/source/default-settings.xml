@@ -1,0 +1,4 @@
+<settings version="2">
+    <setting id="FF_VDR_FRONTEND_MODE">true</setting>
+    <setting id="FF_VDR_BOOT_MODE" default="true">false</setting>
+</settings>

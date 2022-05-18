@@ -1,0 +1,9 @@
+[Unit]
+Description=VDR-Frontend
+Requires=vdr.service
+After=vdr.service kodi.service
+Conflicts=kodi.service
+
+[Service]
+Type=oneshot
+ExecStart=/bin/sh /storage/.kodi/addons/ff-vdr/vdr-frontend.sh start
