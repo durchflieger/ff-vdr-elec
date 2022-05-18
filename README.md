@@ -32,8 +32,8 @@ After a successful build you will find the resulting installable addon zip files
 ## How to populate a kodi addon repository
 
 The Ingredients for a Kodi Repository see [Kdoi Add-on repositories](https://kodi.wiki/view/Add-on_repositories). \
-You can use a `github` project with `ghpages` enabled as infrastructur for your own repository. \
+You can use a `github` project with `ghpages` enabled as infrastructur for your own repository.
 
 You can populate and maintain your own kodi addon repository by using the provided `ff-vdr-elec/update_repository.sh` script. \
-It has support of deploying a repository to a `github` project.
+It has support for deploying a repository to a `github` project allmost automatically.
 
