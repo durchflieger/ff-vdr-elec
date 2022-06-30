@@ -1,0 +1,13 @@
+diff --git a/epg.c b/epg.c
+index d917e66..8a68b94 100644
+--- a/epg.c
++++ b/epg.c
+@@ -17,7 +17,7 @@
+ #include "libsi/si.h"
+ 
+ #define RUNNINGSTATUSTIMEOUT 30 // seconds before the running status is considered unknown
+-#define EPGDATAWRITEDELTA   600 // seconds between writing the epg.data file
++#define EPGDATAWRITEDELTA   21600 // seconds between writing the epg.data file
+ 
+ // --- tComponent ------------------------------------------------------------
+ 
