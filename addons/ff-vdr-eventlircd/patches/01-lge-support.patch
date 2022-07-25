@@ -10,6 +10,13 @@ index 604b261..469a819 100644
  
  AC_ARG_WITH(lircd-socket, AS_HELP_STRING([--with-lircd-socket=SOCKET], [lircd socket @<:@LOCALSTATEDIR/run/lirc/lircd@:>@]),
      [LIRCD_SOCKET="$withval"],
+diff --git a/mkpatch.sh b/mkpatch.sh
+new file mode 100644
+index 0000000..92c2921
+--- /dev/null
++++ b/mkpatch.sh
+@@ -0,0 +1 @@
++git diff 3b753e91ae8c28dc34dd017a354d72b3c0715309 > ~/ff-vdr-elec/addons/ff-vdr-eventlircd/patches/01-lge-support.patch
 diff --git a/src/.gitignore b/src/.gitignore
 new file mode 100644
 index 0000000..8ec376c
@@ -30,7 +37,7 @@ index 0000000..8ec376c
 +# General backup files
 +*.bak
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 5829e40..fa7d91e 100644
+index 5829e40..b87674c 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
 @@ -1,7 +1,7 @@
@@ -38,7 +45,7 @@ index 5829e40..fa7d91e 100644
 -eventlircd_SOURCES = main.c monitor.c monitor.h input.c input.h lircd.c lircd.h
 -eventlircd_CFLAGS = $(AM_CFLAGS) $(LIBUDEV_CFLAGS) -DLIRCD_SOCKET=\"$(LIRCD_SOCKET)\" -DEVMAP_DIR=\"$(EVMAP_DIR)\"
 -eventlircd_LDFLAGS = $(AM_CFLAGS) $(LIBUDEV_LIBS)
-+eventlircd_SOURCES = main.c monitor.c monitor.h input.c input.h lircd.c lircd.h lge.c lge.h
++eventlircd_SOURCES = main.c monitor.c monitor.h input.c input.h lircd.c lircd.h lge.c lge.h txir.c txir.h
 +eventlircd_CFLAGS = $(AM_CFLAGS) $(LIBUDEV_CFLAGS) $(LIBLIRC_CFLAGS) -DLIRCD_SOCKET=\"$(LIRCD_SOCKET)\" -DEVMAP_DIR=\"$(EVMAP_DIR)\"
 +eventlircd_LDFLAGS = $(AM_CFLAGS) $(LIBUDEV_LIBS) $(LIBLIRC_LIBS)
  
@@ -427,12 +434,12 @@ index 0000000..ccd826e
 +
 diff --git a/src/lge.h b/src/lge.h
 new file mode 100644
-index 0000000..16505cc
+index 0000000..7e77ff9
 --- /dev/null
 +++ b/src/lge.h
 @@ -0,0 +1,11 @@
-+#ifndef _EVENTLIRCD_LGE_H_
-+#define _EVENTLIRCD_LGE_H_ 1
++#ifndef _LGE_H_
++#define _LGE_H_ 1
 +
 +#include <sys/time.h>
 +
@@ -443,10 +450,10 @@ index 0000000..16505cc
 +
 +#endif
 diff --git a/src/lircd.c b/src/lircd.c
-index cd198ad..8e9ea8a 100644
+index cd198ad..fb37734 100644
 --- a/src/lircd.c
 +++ b/src/lircd.c
-@@ -35,11 +35,15 @@
+@@ -35,11 +35,16 @@
   */
  #include <linux/input.h>  /* */
  #include <linux/limits.h> /* */
@@ -459,10 +466,11 @@ index cd198ad..8e9ea8a 100644
  #include "lircd.h"
  #include "monitor.h"
 +#include "lge.h"
++#include "txir.h"
  
  /*
   * The lircd_handler does not use the id parameter, so we need to let gcc's
-@@ -71,12 +75,14 @@ struct {
+@@ -71,12 +76,14 @@ struct {
  	mode_t mode;
  	char *release_suffix;
  	struct lircd_client *client_list;
@@ -478,7 +486,7 @@ index cd198ad..8e9ea8a 100644
  };
  
  static int lircd_client_add()
-@@ -114,7 +120,7 @@ static int lircd_client_add()
+@@ -114,7 +121,7 @@ static int lircd_client_add()
  	return 0;
  }
  
@@ -487,7 +495,7 @@ index cd198ad..8e9ea8a 100644
  {
  	if (lircd_client_add() != 0) {
  		return -1;
-@@ -192,10 +198,15 @@ int lircd_exit()
+@@ -192,10 +199,15 @@ int lircd_exit()
  		eventlircd_lircd.path = NULL;
  	}
  
@@ -504,7 +512,7 @@ index cd198ad..8e9ea8a 100644
  {
  	struct sockaddr_un addr;
  
-@@ -218,6 +229,11 @@ int lircd_init(const char *path, mode_t mode, const char *release_suffix)
+@@ -218,6 +230,11 @@ int lircd_init(const char *path, mode_t mode, const char *release_suffix)
  		return -1;
  	}
  
@@ -516,7 +524,7 @@ index cd198ad..8e9ea8a 100644
  	if ((eventlircd_lircd.path = strndup(path, PATH_MAX)) == NULL) {
  		syslog(LOG_ERR,
  		       "failed to allocate memory for the lircd device %s: %s\n",
-@@ -296,6 +312,8 @@ int lircd_send(const struct input_event *event, const char *name, unsigned int r
+@@ -296,6 +313,8 @@ int lircd_send(const struct input_event *event, const char *name, unsigned int r
  	char message[1000];
  	int message_len;
  	struct lircd_client *client;
@@ -525,7 +533,7 @@ index cd198ad..8e9ea8a 100644
  
  	if (event == NULL) {
  		errno = EINVAL;
-@@ -335,6 +353,34 @@ int lircd_send(const struct input_event *event, const char *name, unsigned int r
+@@ -335,6 +354,37 @@ int lircd_send(const struct input_event *event, const char *name, unsigned int r
  	}
  
  	if (message_len > 0) {
@@ -547,6 +555,9 @@ index cd198ad..8e9ea8a 100644
 +				if (prog != NULL) {
 +					if (strcmp(prog, "forward") == 0) {
 +						forward = 2;
++					} else if (strcmp(prog, "txir") == 0) {
++						if (txir_send(cmd) == -1)
++							return -1;
 +					} else if (strcmp(prog, "lge") == 0) {
 +						if (lge_send(cmd, NULL) == -1)
 +							return -1;
@@ -574,18 +585,19 @@ index 59edbd1..83f4650 100644
  int lircd_send(const struct input_event *event, const char *name, unsigned int repeat_count, const char *remote);
  
 diff --git a/src/main.c b/src/main.c
-index 207ba92..677bc00 100644
+index 207ba92..519c3ce 100644
 --- a/src/main.c
 +++ b/src/main.c
-@@ -42,6 +42,7 @@
+@@ -42,6 +42,8 @@
  #include "input.h"
  #include "lircd.h"
  #include "monitor.h"
 +#include "lge.h"
++#include "txir.h"
  
  int main(int argc,char **argv)
  {
-@@ -56,6 +57,11 @@ int main(int argc,char **argv)
+@@ -56,6 +58,12 @@ int main(int argc,char **argv)
          {"mode",required_argument,NULL,'m'},
          {"repeat-filter",no_argument,NULL,'R'},
          {"release",required_argument,NULL,'r'},
@@ -594,16 +606,18 @@ index 207ba92..677bc00 100644
 +        {"lge-on",required_argument,NULL,0x100},
 +        {"lge-off",required_argument,NULL,0x101},
 +        {"lge-open-retry",required_argument,NULL,0x102},
++        {"txir",required_argument,NULL,'T'},
          {0, 0, 0, 0}
      };
      const char *progname = NULL;
-@@ -67,12 +73,16 @@ int main(int argc,char **argv)
+@@ -67,12 +75,17 @@ int main(int argc,char **argv)
      bool input_repeat_filter = false;
      const char *lircd_release_suffix = NULL;
      int opt;
 +    const char *lirc_client_config_file = NULL;
 +    const char *lge_port = NULL, *lge_on = NULL, *lge_off = NULL;
 +    int lge_open_retry = 0;
++    const char *txir = NULL;
 +    int rc;
  
      for (progname = argv[0] ; strchr(progname, '/') != NULL ; progname = strchr(progname, '/') + 1);
@@ -611,11 +625,11 @@ index 207ba92..677bc00 100644
      openlog(progname, LOG_CONS | LOG_PERROR | LOG_PID, LOG_DAEMON);
  
 -    while((opt = getopt_long(argc, argv, "hVvfe:s:m:Rr:", longopts, NULL)) != -1)
-+    while((opt = getopt_long(argc, argv, "hVvfe:s:m:Rr:C:L:", longopts, NULL)) != -1)
++    while((opt = getopt_long(argc, argv, "hVvfe:s:m:Rr:C:L:T:", longopts, NULL)) != -1)
      {
          switch(opt)
          {
-@@ -91,6 +101,11 @@ int main(int argc,char **argv)
+@@ -91,6 +104,12 @@ int main(int argc,char **argv)
  		fprintf(stdout, "    -R --repeat-filter     enable repeat filtering (default is '%s')\n",
                                                              input_repeat_filter ? "false" : "true");
  		fprintf(stdout, "    -r --release=<suffix>  generate key release events suffixed with <suffix>\n");
@@ -624,10 +638,11 @@ index 207ba92..677bc00 100644
 +		fprintf(stdout, "    --lge-on=<codes>       lge codes to switch tv on\n");
 +		fprintf(stdout, "    --lge-off=<codes>      lge codes to switch tv off\n");
 +		fprintf(stdout, "    --lge-open-retry=<n>   retry port open every 100ms\n");
++		fprintf(stdout, "    -T --txir=<path>       txir socket path\n");
                  exit(EX_OK);
                  break;
              case 'V':
-@@ -124,6 +139,21 @@ int main(int argc,char **argv)
+@@ -124,6 +143,21 @@ int main(int argc,char **argv)
              case 'r':
                  lircd_release_suffix = optarg;
                  break;
@@ -649,7 +664,7 @@ index 207ba92..677bc00 100644
              default:
                  fprintf(stderr, "error: unknown option: %c\n", opt);
                  exit(EX_USAGE);
-@@ -156,7 +186,7 @@ int main(int argc,char **argv)
+@@ -156,7 +190,7 @@ int main(int argc,char **argv)
  
      /* Initialize the lircd socket before daemonizing in order to ensure that programs
         started after it damonizes will have an lircd socket with which to connect. */
@@ -658,7 +673,7 @@ index 207ba92..677bc00 100644
      {
          monitor_exit();
          exit(EXIT_FAILURE);
-@@ -172,30 +202,46 @@ int main(int argc,char **argv)
+@@ -172,30 +206,52 @@ int main(int argc,char **argv)
          }
      }
  
@@ -671,8 +686,7 @@ index 207ba92..677bc00 100644
 +    rc = 0;
  
 -    monitor_run();
-+    if (lge_port != NULL)
-+	   rc = lge_init(lge_port, lge_open_retry);
++    txir_init(txir);
  
 -    if (input_exit() != 0)
 -    {
@@ -680,13 +694,16 @@ index 207ba92..677bc00 100644
 -        lircd_exit();
 -        exit(EXIT_FAILURE);
 -    }
-+    if (rc == 0)
-+    	rc = input_init(input_device_evmap_dir, input_repeat_filter);
++    if (lge_port != NULL)
++	   rc = lge_init(lge_port, lge_open_retry);
  
 -    if (lircd_exit() != 0)
 -    {
 -        monitor_exit();
 -        exit(EXIT_FAILURE);
++    if (rc == 0)
++    	rc = input_init(input_device_evmap_dir, input_repeat_filter);
++
 +    if (rc == 0 && lge_on != NULL)
 +	rc = lge_send(lge_on, NULL);
 +
@@ -714,12 +731,16 @@ index 207ba92..677bc00 100644
 +    if (rc == 0)
 +	rc = lge_exit();
 +
++    if (rc == 0)
++	rc = txir_exit();
++
 +    if (rc == -1)
      {
 +	input_exit();
 +        monitor_exit();
 +        lircd_exit();
 +	lge_exit();
++	txir_exit();
          exit(EXIT_FAILURE);
      }
  
@@ -886,6 +907,115 @@ index 56f1d46..9fc7948 100644
  int monitor_run();
  
  #endif
+diff --git a/src/txir.c b/src/txir.c
+new file mode 100644
+index 0000000..3bd3058
+--- /dev/null
++++ b/src/txir.c
+@@ -0,0 +1,87 @@
++//
++#include <stdio.h>
++#include <stdint.h>
++#include <stdlib.h>
++#include <ctype.h>
++#include <string.h>
++#include <unistd.h>
++#include <fcntl.h>
++#include <errno.h>
++#include <sys/un.h>       /* XSI */
++#include <syslog.h>       /* XSI */
++
++#include "monitor.h"
++#include "txir.h"
++
++#ifdef UNUSED
++# error cannot define UNUSED because it is already defined
++#endif
++#if defined(__GNUC__)
++# define UNUSED(x) x __attribute__((unused))
++#else
++# define UNUSED(x) x
++#endif
++
++static const char *txir_socket_path;
++static int txir_fd = -1;
++
++void txir_init(const char *path)
++{
++	txir_socket_path = path;
++}
++
++int txir_exit(void)
++{
++	if (txir_fd != -1) {
++		if (monitor_client_remove(txir_fd) != 0)
++			return -1;
++
++		if (close(txir_fd) == -1) {
++			syslog(LOG_ERR, "closing txir socket failed: %s\n", strerror(errno));
++			return -1;
++		}
++		txir_fd = -1;
++	}
++	return 0;
++}
++
++static int txir_handler(void* UNUSED(id), int ready, struct timeval* UNUSED(now))
++{
++	if (ready)
++	{
++		char msg[256];
++		ssize_t n = read(txir_fd, &msg, sizeof(msg) - 1);
++		if (n == (ssize_t)-1) {
++    	syslog(LOG_ERR, "reading data from txir socket failed: %s\n", strerror(errno));
++    	return -1;
++		}
++	}
++	return 0;
++}
++
++int txir_send(const char *cmd)
++{
++	if (txir_socket_path == NULL)
++		return 0;
++
++	if (txir_fd == -1)
++	{
++		txir_fd = open(txir_socket_path, O_RDWR|O_NONBLOCK);
++		if (txir_fd == -1)
++		{
++			syslog(LOG_ERR, "could not open txir socket %s: %s\n", txir_socket_path, strerror(errno));
++			return -1;
++		}
++		if (monitor_client_add(txir_fd, &txir_handler, NULL) != 0)
++			return -1;
++	}
++
++	char buf[256];
++	ssize_t n = snprintf(buf, sizeof(buf), "%s\n", cmd);
++	if (write(txir_fd, buf, n) != n)
++	{
++		syslog(LOG_ERR, "write to txir socket failed: %s\n", strerror(errno));
++		return -1;
++	}
++	return 0;
++}
+diff --git a/src/txir.h b/src/txir.h
+new file mode 100644
+index 0000000..213d59f
+--- /dev/null
++++ b/src/txir.h
+@@ -0,0 +1,10 @@
++#ifndef _TXIR_H_
++#define _TXIR_H_ 1
++
++#include <sys/time.h>
++
++void txir_init(const char *path);
++int txir_exit(void);
++int txir_send(const char *cmd);
++
++#endif
 diff --git a/test/lgeemu.sh b/test/lgeemu.sh
 new file mode 100644
 index 0000000..a49db78

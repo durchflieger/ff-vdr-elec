@@ -21,7 +21,7 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES="executable"
-PKG_REV="100"
+PKG_REV="101"
 
 addon() {
   INSTDIR="${ADDON_BUILD}/${PKG_ADDON_ID}"
