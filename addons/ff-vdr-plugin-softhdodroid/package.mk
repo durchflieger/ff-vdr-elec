@@ -3,8 +3,8 @@
 VDR_PLUGIN_NAME="softhdodroid"
 
 PKG_NAME="ff-vdr-plugin-${VDR_PLUGIN_NAME}"
-PKG_VERSION="e18d28d78c19402c00c4da43c2403b444b299f5e"
-PKG_SHA256="0a0c25efd64d83a0eff93d6c29dd0563bdc02194fc716bf18b9ccbfff940af59"
+PKG_VERSION="19fe70cf15215bc29cdb8b7decaa40df2156107c"
+PKG_SHA256="8f0adea64746d34fd917196610d325d77caaaee86e885131d1ba0c09ab9f1162"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.vdr-portal.de/forum/index.php?thread/134744-video-treiber-f%C3%BCr-odroid-n2-softhdodroid"
 PKG_URL="https://github.com/jojo61/vdr-plugin-softhdodroid/archive/${PKG_VERSION}.zip"
@@ -22,7 +22,7 @@ PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES="executable"
 PKG_ADDON_REQUIRES="ff-vdr:0.0.0"
-PKG_REV="100"
+PKG_REV="101"
 
 make_target() {
   VDR_DIR=$(get_build_dir ff-vdr)

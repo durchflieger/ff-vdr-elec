@@ -1,2 +1,5 @@
+101
+- plugin version 3.7
+
 100
 - initial
