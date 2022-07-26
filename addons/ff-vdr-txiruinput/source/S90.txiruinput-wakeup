@@ -1,0 +1,8 @@
+# Custom VDR Shutdown Hook
+WAKEUP_SECS="$2"
+echo "wakeup $WAKEUP_SECS" | nc -U /run/txiruinput | grep -q "OK"
+if [ $? -ne 0 ] ; then
+	echo "ABORT_MESSAGE=\"Failed to set wakeup time!\""
+	exit 1
+fi
+exit 0

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 PKG_NAME="ff-vdr-txiruinput"
-PKG_VERSION="b0520f32fb2ced0c664a1b11f0a3694714dce9c3"
+PKG_VERSION="043eceeafc5b22c39dac8c235bcece2dc7e8bce6"
 PKG_LICENSE="GPL"
 PKG_SITE="https://media/txiruinput"
 PKG_URL="git://media/txiruinput"
@@ -24,5 +24,5 @@ addon() {
   INSTDIR="${ADDON_BUILD}/${PKG_ADDON_ID}"
  
   install -D -m 0755 -t ${INSTDIR}/bin ${PKG_BUILD}/txiruinput
-  install -D -m 0644 -t ${INSTDIR} ${PKG_BUILD}/45-txiruinput.rules ${PKG_BUILD}/98-eventlircd-txiruinput.rules ${PKG_BUILD}/S90.txiruinput-wakeup ${PKG_BUILD}/txiruinput.conf
+  install -D -m 0644 -t ${INSTDIR} ${PKG_BUILD}/98-eventlircd-txiruinput.rules
 }
