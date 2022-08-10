@@ -1,21 +1,21 @@
 begin
   remote = devinput
   button = KEY_VOLUMEUP
-  prog   = txir
+  prog   = lge
   repeat = 1
-  config = lge 1B02
+  config = 1B02
 end
 begin
   remote = devinput
   button = KEY_VOLUMEDOWN
-  prog   = txir
+  prog   = lge
   repeat = 1
-  config = lge 1B03
+  config = 1B03
 end
 begin
   remote = devinput
   button = KEY_MUTE
-  prog   = txir
+  prog   = lge
   repeat = 1
-  config = lge 1B09
+  config = 1B09
 end
