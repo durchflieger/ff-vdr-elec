@@ -10,13 +10,15 @@ echo "${FF_VDR_ADDON_NAME}/install.sh started"
 
 oe_setup_addon ${FF_VDR_ADDON_NAME}
 
-chmod a+x $ADDON_DIR/bin/txiruinput
+chmod a+x $ADDON_DIR/bin/txiruinput $ADDON_DIR/startdaemon.sh
+
+echo -e "[Unit]\nDescription=USBTXIR-Daemon\n\n[Service]\nExecStart=$ADDON_HOME/startdaemon.sh" > $ADDON_DIR/txiruinput.service
+ln -sf $ADDON_DIR/txiruinput.service /storage/.config/system.d
+ln -sf $ADDON_DIR/45-txiruinput.rules /storage/.config/udev.rules.d
 
 if [ ! -f $ADDON_HOME/.installed ] ; then
 	cp $ADDON_DIR/txiruinput.conf $ADDON_HOME
-	echo "ACTION==\"add\", SUBSYSTEM==\"usb\", ATTR{idVendor}==\"16c0\", ATTR{idProduct}==\"05dc\", ENV{ID_MODEL}==\"USBTXIR\", ENV{ID_SERIAL_SHORT}==\"AP\", RUN=\"$ADDON_DIR/bin/txiruinput -b %E{BUSNUM} -d %E{DEVNUM} -c $ADDON_HOME/txiruinput.conf -s /run/txiruinput -i -D -l 1 -w 0\"" > $ADDON_HOME/45-txiruinput.rules
-	ln -sf $ADDON_HOME/45-txiruinput.rules $UDEV_DIR
-	ln -sf $ADDON_DIR/98-eventlircd-txiruinput.rules $UDEV_DIR
+	cp $ADDON_DIR/startdaemon.sh $ADDON_HOME
 fi
 
 touch $ADDON_DIR/.installed $ADDON_HOME/.installed
