@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 PKG_NAME="ff-vdr-txiruinput"
-PKG_VERSION="b0520f32fb2ced0c664a1b11f0a3694714dce9c3"
+PKG_VERSION="b35085817424b6ec244f7d9b0ec8c9dea37e0e48"
 PKG_LICENSE="GPL"
 PKG_SITE="https://media/txiruinput"
 PKG_URL="git://media/txiruinput"
