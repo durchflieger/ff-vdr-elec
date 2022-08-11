@@ -24,5 +24,5 @@ addon() {
   INSTDIR="${ADDON_BUILD}/${PKG_ADDON_ID}"
  
   install -D -m 0755 -t ${INSTDIR}/bin ${PKG_BUILD}/txiruinput
-  #install -D -m 0644 -t ${INSTDIR} ${PKG_BUILD}/98-eventlircd-txiruinput.rules
+  install -D -m 0644 -t ${INSTDIR} ${PKG_BUILD}/98-eventlircd-txiruinput.rules
 }

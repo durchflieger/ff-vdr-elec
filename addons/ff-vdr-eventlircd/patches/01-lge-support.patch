@@ -450,7 +450,7 @@ index 0000000..7e77ff9
 +
 +#endif
 diff --git a/src/lircd.c b/src/lircd.c
-index cd198ad..fb37734 100644
+index cd198ad..71be542 100644
 --- a/src/lircd.c
 +++ b/src/lircd.c
 @@ -35,11 +35,16 @@
@@ -533,7 +533,7 @@ index cd198ad..fb37734 100644
  
  	if (event == NULL) {
  		errno = EINVAL;
-@@ -335,6 +354,37 @@ int lircd_send(const struct input_event *event, const char *name, unsigned int r
+@@ -335,6 +354,40 @@ int lircd_send(const struct input_event *event, const char *name, unsigned int r
  	}
  
  	if (message_len > 0) {
@@ -561,6 +561,9 @@ index cd198ad..fb37734 100644
 +					} else if (strcmp(prog, "lge") == 0) {
 +						if (lge_send(cmd, NULL) == -1)
 +							return -1;
++					} else if (strcmp(prog, "sh") == 0) {
++						if (system(cmd) == -1)
++							return -1;
 +					}
 +				}
 +			}
@@ -585,7 +588,7 @@ index 59edbd1..83f4650 100644
  int lircd_send(const struct input_event *event, const char *name, unsigned int repeat_count, const char *remote);
  
 diff --git a/src/main.c b/src/main.c
-index 207ba92..519c3ce 100644
+index 207ba92..b4a7480 100644
 --- a/src/main.c
 +++ b/src/main.c
 @@ -42,6 +42,8 @@
@@ -642,12 +645,15 @@ index 207ba92..519c3ce 100644
                  exit(EX_OK);
                  break;
              case 'V':
-@@ -124,6 +143,21 @@ int main(int argc,char **argv)
+@@ -124,6 +143,24 @@ int main(int argc,char **argv)
              case 'r':
                  lircd_release_suffix = optarg;
                  break;
 +            case 'C':
 +                lirc_client_config_file = optarg;
++                break;
++            case 'T':
++                txir = optarg;
 +                break;
 +            case 'L':
 +                lge_port = optarg;
@@ -664,7 +670,7 @@ index 207ba92..519c3ce 100644
              default:
                  fprintf(stderr, "error: unknown option: %c\n", opt);
                  exit(EX_USAGE);
-@@ -156,7 +190,7 @@ int main(int argc,char **argv)
+@@ -156,7 +193,7 @@ int main(int argc,char **argv)
  
      /* Initialize the lircd socket before daemonizing in order to ensure that programs
         started after it damonizes will have an lircd socket with which to connect. */
@@ -673,7 +679,7 @@ index 207ba92..519c3ce 100644
      {
          monitor_exit();
          exit(EXIT_FAILURE);
-@@ -172,30 +206,52 @@ int main(int argc,char **argv)
+@@ -172,30 +209,52 @@ int main(int argc,char **argv)
          }
      }
  
