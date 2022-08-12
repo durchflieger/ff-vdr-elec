@@ -12,7 +12,7 @@ oe_setup_addon ${FF_VDR_ADDON_NAME}
 
 chmod a+x $ADDON_DIR/bin/txiruinput $ADDON_DIR/startdaemon.sh
 
-echo -e "[Unit]\nDescription=USBTXIR-Daemon\n\n[Service]\nExecStart=$ADDON_HOME/startdaemon.sh" > $ADDON_DIR/txiruinput.service
+echo -e "[Unit]\nDescription=USBTXIR-Daemon\n\n[Service]\nType=exec\nExecStart=$ADDON_HOME/startdaemon.sh\nExecStartPost=$ADDON_HOME/startdaemon.sh post" > $ADDON_DIR/txiruinput.service
 ln -sf $ADDON_DIR/txiruinput.service /storage/.config/system.d
 ln -sf $ADDON_DIR/45-txiruinput.rules /storage/.config/udev.rules.d
 ln -sf $ADDON_DIR/98-eventlircd-txiruinput.rules /storage/.config/udev.rules.d
