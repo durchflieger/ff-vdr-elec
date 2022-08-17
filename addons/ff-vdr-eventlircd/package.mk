@@ -21,12 +21,12 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES="executable"
-PKG_REV="101"
+PKG_REV="102"
 
 addon() {
   INSTDIR="${ADDON_BUILD}/${PKG_ADDON_ID}"
  
   mkdir -p ${INSTDIR}/bin
 
-  cp -P ${PKG_INSTALL}/usr/sbin/eventlircd ${INSTDIR}/bin/eventlircd-lge
+  cp -P ${PKG_INSTALL}/usr/sbin/eventlircd ${INSTDIR}/bin/ff-vdr-eventlircd
 }

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 PKG_NAME="ff-vdr-txiruinput"
-PKG_VERSION="f2a1651890684fe60b4cfb5f0e26760266254c8f"
+PKG_VERSION="3902dbb9f35222da2bd284a707500e32f10184bf"
 PKG_LICENSE="GPL"
 PKG_SITE="https://media/txiruinput"
 PKG_URL="git://media/txiruinput"
@@ -16,7 +16,7 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES="executable"
-PKG_REV="100"
+PKG_REV="101"
 
 GET_HANDLER_SUPPORT="git"
 

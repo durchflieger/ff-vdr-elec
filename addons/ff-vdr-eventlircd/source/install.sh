@@ -1,5 +1,4 @@
 #!/bin/sh
-# SPDX-License-Identifier: GPL-2.0-or-later
 
 FF_VDR_ADDON_NAME="ff-vdr-eventlircd"
 SYSD_DIR=/storage/.config/system.d/eventlircd.service.d
@@ -10,14 +9,15 @@ echo "${FF_VDR_ADDON_NAME}/install.sh started"
 
 oe_setup_addon ${FF_VDR_ADDON_NAME}
 
-chmod a+x $ADDON_DIR/bin/eventlircd-lge
+chmod a+x $ADDON_DIR/bin/ff-vdr-eventlircd
 
 if [ ! -f $ADDON_HOME/.installed ] ; then
-	cp $ADDON_DIR/startservice.sh $ADDON_DIR/lircrc $ADDON_HOME
+	cp $ADDON_DIR/startservice.sh $ADDON_DIR/lircrc* $ADDON_HOME
+	chmod a+x $ADDON_HOME/startservice.sh
 
+	echo -e "[Service]\nExecStart=\nExecStart=$ADDON_HOME/startservice.sh\nTimeoutStopSec=10s" > $ADDON_DIR/override.conf
 	mkdir -p $SYSD_DIR
-	cp $ADDON_DIR/override.conf $SYSD_DIR
-	systemctl daemon-reload
+	ln -sf $ADDON_DIR/override.conf $SYSD_DIR
 fi
 
 touch $ADDON_DIR/.installed $ADDON_HOME/.installed

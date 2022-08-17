@@ -915,7 +915,7 @@ index 56f1d46..9fc7948 100644
  #endif
 diff --git a/src/txir.c b/src/txir.c
 new file mode 100644
-index 0000000..e86c2ed
+index 0000000..1bf5b01
 --- /dev/null
 +++ b/src/txir.c
 @@ -0,0 +1,99 @@
@@ -1009,7 +1009,7 @@ index 0000000..e86c2ed
 +			return -1;
 +	}
 +
-+	char buf[256];
++	char buf[1024];
 +	ssize_t n = snprintf(buf, sizeof(buf), "%s\n", cmd);
 +	if (write(txir_fd, buf, n) != n)
 +	{
