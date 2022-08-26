@@ -64,10 +64,6 @@ This package provides Amlogic media driver kernel modules which support the Pict
 You should install this package only for PIP support.
 After installation reboot your system.
 
-### ff-vdr-eventlircd
-This packages provides a enhanced eventlircd daemon that support sending commands to LG TV's over a serial connection.
-Do not install this package.
-
 ## TODO
 
 Unfortionally the addon management features of Kodi are limited.

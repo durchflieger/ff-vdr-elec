@@ -38,5 +38,7 @@ export GIT_REPO_URL=${GIT_REPO_URL:-"git@github.com-ff-vdr-repo:durchflieger/ff-
 export REPO_URL=${REPO_URL:-"https://durchflieger.github.io/ff-vdr-coreelec-n2-odroid-repo"}
 
 # Set to yes if update_repository.sh should automatically commit and push changes to github
-export GIT_COMMIT="yes"
+export GIT_COMMIT="no"
 
+# Name of kodi repository addon
+export REPO_ADDON_NAME="ff-vdr-repository"

@@ -87,7 +87,7 @@ copy_zip_files () {
 create_repository_addon_xml () {
 	cat <<EOF
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<addon id="ff-vdr-repository" name="ff-vdr-repository" version="${REPO_ADDON_VERSION}" provider-name="${BUILDER_NAME}">
+<addon id="${REPO_ADDON_NAME}" name="${REPO_ADDON_NAME}" version="${REPO_ADDON_VERSION}" provider-name="${BUILDER_NAME}">
 EOF
 		#<dir minversion="${BASE_VERSION}.0" maxversion="${BASE_VERSION}.999">
   	#for BASE_VERSION in ${BASE_VERSION_LIST} ; do
@@ -119,15 +119,15 @@ EOF
 
 create_repository_addon () {
 	local builddir=`mktemp -d`
-	local builddst="${builddir}/ff-vdr-repository"
-	local dst="${REPO_DIR}/${REPO_ADDON_BASE_VERSION}/ff-vdr-repository" 
-	local file="ff-vdr-repository-${REPO_ADDON_VERSION}.zip"
+	local builddst="${builddir}/${REPO_ADDON_NAME}"
+	local dst="${REPO_DIR}/${REPO_ADDON_BASE_VERSION}/${REPO_ADDON_NAME}" 
+	local file="${REPO_ADDON_NAME}-${REPO_ADDON_VERSION}.zip"
 	mkdir -p "${builddst}/resources" "${dst}"
 	create_repository_addon_xml > "${builddst}/addon.xml"
 	cp "${FF_VDR_DISTRO_DIR}/repository/icon.png" "${FF_VDR_DISTRO_DIR}/repository/fanart.png" "${builddst}/resources"
-	(cd ${builddir} && zip -rq "${file}" ff-vdr-repository && cp "${file}" "${REPO_ADDON_FILE}")
+	(cd ${builddir} && zip -rq "${file}" ${REPO_ADDON_NAME} && cp "${file}" "${REPO_ADDON_FILE}")
 	(cd "$dst" && sha256sum -b "$file" > "${file}.sha256")
-	[ -n "${FOUND_GIT_REPO}" ] && git -C "${dst}" add "${file}" "${file}.sha256" && echo "new addon ff-vdr-repository version ${REPO_ADDON_VERSION}" >> "$GIT_MSG"
+	[ -n "${FOUND_GIT_REPO}" ] && git -C "${dst}" add "${file}" "${file}.sha256" && echo "new addon ${REPO_ADDON_NAME} version ${REPO_ADDON_VERSION}" >> "$GIT_MSG"
 	rm -rf "${builddir}"
 	BASE_VERSION_FILES[${REPO_ADDON_BASE_VERSION}]="${BASE_VERSION_FILES[${REPO_ADDON_BASE_VERSION}]} ${REPO_ADDON_FILE}"
 	echo "Created ${REPO_ADDON_FILE}"
@@ -165,8 +165,8 @@ create_readme_addon_lists () {
 			unzip -p "$file" '*/addon.xml' | read_addon_file parse_dom3
 			shopt -u lastpipe
 			addon_versions[${ADDON_ID}]="${addon_versions[${ADDON_ID}]} ${ADDON_VERSION}"
-			if [ "${ADDON_ID}" = "ff-vdr-repository" ] ; then
-				repo_addon_url="${REPO_URL}/${BASE_VERSION}/ff-vdr-repository/ff-vdr-repository-${ADDON_VERSION}.zip"
+			if [ "${ADDON_ID}" = "${REPO_ADDON_NAME}" ] ; then
+				repo_addon_url="${REPO_URL}/${BASE_VERSION}/${REPO_ADDON_NAME}/${REPO_ADDON_NAME}-${ADDON_VERSION}.zip"
 			fi
 		done
 
@@ -187,7 +187,7 @@ create_readme_addon_lists () {
 }
 
 create_repository_readme () {
-	FF_VDR_REPOSITORY_URL="${REPO_URL}/${REPO_ADDON_BASE_VERSION}/ff-vdr-repository/ff-vdr-repository-${REPO_ADDON_VERSION}.zip" \
+	FF_VDR_REPOSITORY_URL="${REPO_URL}/${REPO_ADDON_BASE_VERSION}/${REPO_ADDON_NAME}/${REPO_ADDON_NAME}-${REPO_ADDON_VERSION}.zip" \
 	FF_VDR_ADDON_LIST=`create_readme_addon_lists` \
 	envsubst < "${FF_VDR_DISTRO_DIR}/repository/README.in"
 }
@@ -241,9 +241,9 @@ BASE_VERSION_LIST=`echo $(printf '%s\n' ${!BASE_VERSION_FILES[@]} | sort -r)`
 declare -a bvl=(${BASE_VERSION_LIST})
 REPO_ADDON_BASE_VERSION=${bvl[0]}
 REPO_ADDON_VERSION="${REPO_ADDON_BASE_VERSION}.100"
-REPO_ADDON_FILE="${REPO_DIR}/${REPO_ADDON_BASE_VERSION}/ff-vdr-repository/ff-vdr-repository-${REPO_ADDON_VERSION}.zip"
+REPO_ADDON_FILE="${REPO_DIR}/${REPO_ADDON_BASE_VERSION}/${REPO_ADDON_NAME}/${REPO_ADDON_NAME}-${REPO_ADDON_VERSION}.zip"
 [ ! -f "${REPO_ADDON_FILE}" ] && create_repository_addon
-echo "Actual ff-vdr-repository addon is ${REPO_ADDON_VERSION}"
+echo "Actual ${REPO_ADDON_NAME} addon is ${REPO_ADDON_VERSION}"
 
 create_addons_files
 
