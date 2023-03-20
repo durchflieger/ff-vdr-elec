@@ -3,8 +3,8 @@
 VDR_PLUGIN_NAME="softhdodroid"
 
 PKG_NAME="ff-vdr-plugin-${VDR_PLUGIN_NAME}"
-PKG_VERSION="19fe70cf15215bc29cdb8b7decaa40df2156107c"
-PKG_SHA256="8f0adea64746d34fd917196610d325d77caaaee86e885131d1ba0c09ab9f1162"
+PKG_VERSION="924c0c91e2d536d4547b61c4b298e49628eb5947"
+PKG_SHA256="7dec715bd08c3e17a05c4bf98602314e4ccf6f3e3ee62bce91ff9909d031cccf"
 PKG_LICENSE="GPL"
 PKG_SITE="https://www.vdr-portal.de/forum/index.php?thread/134744-video-treiber-f%C3%BCr-odroid-n2-softhdodroid"
 PKG_URL="https://github.com/jojo61/vdr-plugin-softhdodroid/archive/${PKG_VERSION}.zip"

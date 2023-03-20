@@ -229,7 +229,11 @@ for ADDON_DIR in `find $REPO_DIR -maxdepth 1 -type d -regex '.*/[0-9]+\.[0-9]+' 
 done
 
 # collect addons from system build
-ADDON_DIR="${DISTRO_DIR}/target/addons/*/${PROJECT}/${ARCH}" collect_addons
+if [ -d "${DISTRO_DIR}/target/addons/${DEVICE}" ] ; then
+	ADDON_DIR="${DISTRO_DIR}/target/addons/${DEVICE}/*/${ARCH}" collect_addons
+else
+	ADDON_DIR="${DISTRO_DIR}/target/addons/*/${PROJECT}/${ARCH}" collect_addons
+fi
 
 # copy new addons from system build
 copy_zip_files

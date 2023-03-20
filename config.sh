@@ -29,13 +29,15 @@ export FF_VDR_ADDON_BUILD_LIST=${FF_VDR_ADDON_BUILD_LIST:-${FF_VDR_DISTRO_DIR}/a
 # ---
 
 # Root directory of local kodi addon repository
-export REPO_DIR=${REPO_DIR:-~/ff-vdr-repo}
+export REPO_DIR=${REPO_DIR:-~/ff-vdr-elec-repo}
 
 # URL for accessing project on github
-export GIT_REPO_URL=${GIT_REPO_URL:-"git@github.com-ff-vdr-repo:durchflieger/ff-vdr-coreelec-n2-odroid-repo.git"}
+#export GIT_REPO_URL=${GIT_REPO_URL:-"git@github.com-ff-vdr-repo:durchflieger/ff-vdr-coreelec-n2-odroid-repo.git"}
+export GIT_REPO_URL=${GIT_REPO_URL:-"andy@gbue4k:git/ff-vdr-elec-repo"}
 
 # URL of github ghpages
-export REPO_URL=${REPO_URL:-"https://durchflieger.github.io/ff-vdr-coreelec-n2-odroid-repo"}
+#export REPO_URL=${REPO_URL:-"https://durchflieger.github.io/ff-vdr-coreelec-n2-odroid-repo"}
+export REPO_URL=${REPO_URL:-"http://gbue4k:8310/ff-vdr-elec-repo"}
 
 # Set to yes if update_repository.sh should automatically commit and push changes to github
 export GIT_COMMIT="no"

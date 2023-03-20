@@ -1,8 +1,8 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 
 PKG_NAME="ff-vdr"
-PKG_VERSION="2.6.1"
-PKG_SHA256="4717616da8e5320dceb7b44db1e4fa1b01e1d356a73717ec21225387020999c6"
+PKG_VERSION="2.6.4"
+PKG_SHA256="2aafc4dd1bc5ca7724d5b5185799ea981cbd0b9c99075e6b5ce86a699f0c5cc5"
 PKG_LICENSE="GPL"
 PKG_SITE="http://www.tvdr.de"
 PKG_URL="http://git.tvdr.de/?p=vdr.git;a=snapshot;h=refs/tags/${PKG_VERSION};sf=tbz2"
