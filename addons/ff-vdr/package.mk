@@ -18,7 +18,7 @@ PKG_IS_ADDON="yes"
 PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES="executable"
-PKG_REV="102"
+PKG_REV="103"
 
 pre_configure_target() {
   export LDFLAGS="$(echo ${LDFLAGS} | sed -e "s|-Wl,--as-needed||")"

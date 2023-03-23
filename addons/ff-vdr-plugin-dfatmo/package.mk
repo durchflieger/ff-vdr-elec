@@ -21,7 +21,7 @@ PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.service"
 PKG_ADDON_PROVIDES="executable"
 PKG_ADDON_REQUIRES="ff-vdr:0.0.0"
-PKG_REV="100"
+PKG_REV="101"
 
 make_target() {
   VDR_DIR=$(get_build_dir ff-vdr)

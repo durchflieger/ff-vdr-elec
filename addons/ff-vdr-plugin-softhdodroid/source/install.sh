@@ -15,6 +15,7 @@ for d in args plugins locale ; do
   mkdir -p $VDR_ROOT_DIR/$d
 done
 
+rm -f $VDR_ROOT_DIR/plugins/libvdr-${VDR_PLUGIN_NAME}.so.*
 ln -sf $ADDON_DIR/libvdr-${VDR_PLUGIN_NAME}.so.* $VDR_ROOT_DIR/plugins
 #cp -r $ADDON_DIR/locale/* $VDR_ROOT_DIR/locale
 

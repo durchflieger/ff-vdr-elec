@@ -18,7 +18,7 @@ PKG_ADDON_NAME="${PKG_NAME}"
 PKG_ADDON_TYPE="xbmc.python.script"
 PKG_ADDON_PROVIDES="executable"
 PKG_ADDON_REQUIRES="ff-vdr:0.0.0 ff-vdr-plugin-softhdodroid:0.0.0"
-PKG_REV="100"
+PKG_REV="101"
 
 addon() {
   INSTDIR="${ADDON_BUILD}/${PKG_ADDON_ID}"

@@ -15,6 +15,8 @@ for d in args plugins locale config/plugins/streamdev-server ; do
   mkdir -p $VDR_ROOT_DIR/$d
 done
 
+rm -f $VDR_ROOT_DIR/plugins/libvdr-${VDR_PLUGIN_NAME}-client.so.*
+rm -f $VDR_ROOT_DIR/plugins/libvdr-${VDR_PLUGIN_NAME}-server.so.*
 ln -sf $ADDON_DIR/libvdr-${VDR_PLUGIN_NAME}-client.so.* $VDR_ROOT_DIR/plugins
 ln -sf $ADDON_DIR/libvdr-${VDR_PLUGIN_NAME}-server.so.* $VDR_ROOT_DIR/plugins
 cp -r $ADDON_DIR/locale/* $VDR_ROOT_DIR/locale
